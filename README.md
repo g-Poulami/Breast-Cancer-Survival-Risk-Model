@@ -1,4 +1,4 @@
-# 🎗️ Breast Cancer Survival & Risk Modelling
+# Breast Cancer Survival & Risk Modelling
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python)
 ![Lifelines](https://img.shields.io/badge/Lifelines-0.27%2B-green?style=flat-square)
@@ -10,7 +10,7 @@ A clinical and genomic survival risk stratification model built on the **METABRI
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Dataset](#dataset)

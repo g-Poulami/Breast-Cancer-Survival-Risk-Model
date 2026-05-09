@@ -4,7 +4,7 @@
 [![Lifelines](https://img.shields.io/badge/Lifelines-0.27%2B-green?style=flat-square)](https://lifelines.readthedocs.io/)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.0%2B-orange?style=flat-square&logo=scikit-learn)](https://scikit-learn.org/)
 [![METABRIC](https://img.shields.io/badge/Data-METABRIC-blue?style=flat-square)](https://www.cbioportal.org/study/summary?id=brca_metabric)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-yellow?style=flat-square)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)]()
 
 ---
@@ -275,4 +275,4 @@ This project is part of a broader computational investigation of breast cancer g
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.

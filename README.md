@@ -64,17 +64,6 @@ This analysis connects directly to several active research priorities in breast 
 
 The METABRIC cohort is one of the most comprehensively characterised breast cancer datasets in existence — with long follow-up, matched expression and clinical data, and PAM50 subtype classification — making it the reference standard for breast cancer survival modelling studies.
 
-### Data Files (download from cBioPortal — not included in repo)
-
-| File | Description |
-|---|---|
-| `data/raw/brca_metabric_clinical_data.tsv` | Clinical, treatment & survival data |
-| `data/raw/data_mrna_illumina_microarray.txt` | mRNA expression (20,603 genes) |
-
-> Raw data files exceed GitHub's 100 MB limit. Download from [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric) or via the [METABRIC data bundle](https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.gz).
-
----
-
 ## Project Structure
 
 ```
@@ -84,16 +73,21 @@ Breast-Cancer-Survival-Risk-Model/
 │   ├── genomic_preprocessing.py    # mRNA expression PCA pipeline
 │   └── survival_analysis.py        # KM curves, Cox model, C-index evaluation
 ├── data/
-│   ├── raw/                        # Raw input files (not tracked in git)
-│   └── processed/                  # Processed CSVs (not tracked in git)
+│   ├── raw/
+│   │   ├── brca_metabric_clinical_data.tsv   # included in repo
+│   │   ├── data_mrna_agilent_microarray.tsv  # included in repo
+│   │   └── data_mrna_illumina_microarray.txt # NOT included — download separately
+│   └── processed/
+│       ├── metabric_merged.csv               # included (Step 1 output)
+│       └── metabric_genomic_merged.csv       # NOT included — regenerate via Step 2
+├── brca_metabric/                  # cBioPortal metadata & case lists (included)
 ├── outputs/
 │   └── plots/
-│       ├── km_by_subtype.png        # Kaplan-Meier curves by PAM50 subtype
-│       ├── cox_forest_plot.png      # Hazard ratio forest plot
-│       └── cindex_comparison.png    # Clinical vs clinical+genomic C-index
-├── notebooks/
-│   └── analysis.ipynb              # Exploratory analysis notebook
+│       ├── km_by_subtype.png
+│       ├── cox_forest_plot.png
+│       └── cindex_comparison.png
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
@@ -114,7 +108,9 @@ cd Breast-Cancer-Survival-Risk-Model
 pip install -r requirements.txt
 ```
 
-### 3. Download the data
+### 3. Download the Illumina expression matrix
+
+The clinical data and Agilent expression file are already included in the repo. Only the large Illumina expression matrix needs to be downloaded separately:
 
 ```bash
 mkdir -p data/raw
@@ -122,7 +118,7 @@ cd data/raw
 wget https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.gz
 tar -xzf brca_metabric.tar.gz
 cp brca_metabric/data_mrna_illumina_microarray.txt .
-# Also download clinical data TSV from cBioPortal manually
+cd ../..
 ```
 
 ### 4. Run the pipeline
@@ -131,12 +127,14 @@ cp brca_metabric/data_mrna_illumina_microarray.txt .
 # Step 1: Clean clinical data
 python src/preprocessing.py
 
-# Step 2: Process gene expression (PCA)
+# Step 2: Process gene expression (PCA) — requires the Illumina matrix from Step 3
 python src/genomic_preprocessing.py
 
 # Step 3: Run survival analysis and generate plots
 python src/survival_analysis.py
 ```
+
+> **Note:** `data/processed/metabric_merged.csv` is included in the repo so you can run `survival_analysis.py` directly without re-running Step 1. Step 2 requires the Illumina expression matrix and will regenerate `metabric_genomic_merged.csv`.
 
 ---
 
@@ -236,7 +234,7 @@ Adding 50 gene expression principal components to the clinical model improves he
 
 - [ ] **Random Survival Forest** — capture non-linear interactions between clinical and genomic features
 - [ ] **Targeted gene selection** — replace PCA with known prognostic genes (ESR1, ERBB2, TP53, MKI67, BRCA1) or validated signatures (Oncotype DX, Mammaprint)
-- [ ] **Somatic mutation integration** — incorporate mutation burden and driver gene status from `data_mutations.txt`
+- [ ] **Somatic mutation integration** — incorporate mutation burden and driver gene status from `brca_metabric/data_mutations.txt`
 - [ ] **Five-fold cross-validation** — replace single train/test split for more robust C-index estimation
 - [ ] **Deep survival models** — DeepSurv or DRSA for end-to-end genomic survival modelling
 - [ ] **Calibration analysis** — Brier score and calibration plots for absolute risk assessment
@@ -269,7 +267,7 @@ This project is part of a broader computational investigation of breast cancer g
 ## Author
 
 **Poulami Ghosh** — [@g-Poulami](https://github.com/g-Poulami)
-[LinkedIn](https://linkedin.com/in/poulami-ghosh-879439304) · [Google Scholar](https://scholar.google.com/scholar?q=Poulami+Ghosh) · poulamighosh738@gmail.com
+[LinkedIn](https://linkedin.com/in/poulami-ghosh-879439304) 
 
 ---
 

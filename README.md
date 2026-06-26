@@ -106,3 +106,10 @@ quoted here.
   their genomic and transcriptomic landscapes. *Nat Commun* 7, 11479 (2016).
 - Harrell FE, et al. Evaluating the yield of medical tests. *JAMA* 247,
   2543-2546 (1982). (concordance index)
+
+> **Note on data.** `data/processed/metabric_genomic_merged.csv` is not committed
+> (METABRIC expression data is large and redistribution-restricted). To
+> regenerate it: download the METABRIC study from cBioPortal
+> (https://www.cbioportal.org/study/summary?id=brca_metabric), place the files
+> under `brca_metabric/`, then run the preprocessing scripts in `src/` to
+> produce the merged table.
